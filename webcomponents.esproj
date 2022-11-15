@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.45-alpha">
+  <PropertyGroup>
+    <StartupCommand>npm run serve</StartupCommand>
+  <JavaScriptTestRoot>.\</JavaScriptTestRoot>
+    <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
+    <BuildCommand>git submodule init
+git submodule update
+pnpm install
+pnpm build</BuildCommand>
+    <ProductionBuildCommand>git submodule init
+git submodule update
+pnpm install
+pnpm build</ProductionBuildCommand>
+    <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
+  </PropertyGroup>
+</Project>
