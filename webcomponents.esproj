@@ -9,8 +9,6 @@
     <CleanCommand>pnpm clean</CleanCommand>
   </PropertyGroup>
   <Target Name="Update" BeforeTargets="BeforeBuild">
-    <Exec Command="git submodule init" />
-    <Exec Command="git submodule update" />
-    <Exec Command="pnpm install" />
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="pnpm install" />
   </Target>
 </Project>
