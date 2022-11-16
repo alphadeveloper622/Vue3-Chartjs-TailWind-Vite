@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.45-alpha">
   <PropertyGroup>
-    <StartupCommand>npm run serve</StartupCommand>
-  <JavaScriptTestRoot>.\</JavaScriptTestRoot>
+    <StartupCommand>pnpm dev</StartupCommand>
+    <JavaScriptTestRoot>.\</JavaScriptTestRoot>
     <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
-    <BuildCommand>git submodule init
-git submodule update
-pnpm install
-pnpm build</BuildCommand>
-    <ProductionBuildCommand>git submodule init
-git submodule update
-pnpm install
-pnpm build</ProductionBuildCommand>
+    <BuildCommand>pnpm build</BuildCommand>
+    <ProductionBuildCommand>pnpm build</ProductionBuildCommand>
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
+    <CleanCommand>pnpm clean</CleanCommand>
   </PropertyGroup>
+  <Target Name="Update" BeforeTargets="BeforeBuild">
+    <Exec Command="git submodule init" />
+    <Exec Command="git submodule update" />
+    <Exec Command="pnpm install" />
+  </Target>
 </Project>
