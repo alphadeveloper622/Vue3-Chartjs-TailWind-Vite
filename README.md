@@ -1,4 +1,4 @@
-# ReSight Vue UI components
+# Sharon Vue UI components
 This repository contains libraries of Vue Single File Components (SFCs) which can be used in other projects.
 
 This repo uses TypeScript, [pnpm](https://pnpm.io) for package management, and [Vite](https://vitejs.dev) for building/bundling the libraries.
@@ -20,9 +20,9 @@ To preview build code in the `dist` folder, enter: `pnpm preview`
 ## Adding repo as a submodule
 To add this repo as a subfolder of an existing git repository use the `git submodule add` command.
 
-For example, the below command was used to add this repo to the ReSight Dashboard repository:
+For example, the below command was used to add this repo to the Sharon Dashboard repository:
 ```
-git submodule add git@bitbucket.org:coopdigity/vue-ui-components.git ./ReSight.Dash/Content/vue`
+git submodule add git@bitbucket.org:karsten/vue-ui-components.git ./Sharon.Dash/Content/vue`
 ```
 
 Once a submodule has been added to a branch, other can checkout and pull the submodule by running the update command:

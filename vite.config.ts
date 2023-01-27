@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [vue()],
   build: {
     lib: {
-      entry: resolve(__dirname, "src/resight-vue.js"),
-      name: "ReSightVue",
-      fileName: "resight-vue",
+      entry: resolve(__dirname, "src/Sharon-vue.js"),
+      name: "SharonVue",
+      fileName: "Sharon-vue",
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
