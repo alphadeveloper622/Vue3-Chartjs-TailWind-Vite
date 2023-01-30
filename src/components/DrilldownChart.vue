@@ -1,18 +1,29 @@
 <template>
   <div class="flex">
-    <ButtonList :tasks="tasks"></ButtonList>
-    <!-- <div class="chart-container" style="position: relative; height:60vh; width:100%">
+    
+    <div class="chart-container" style="position: relative; height:60vh; width:100%">
       <div id="button_group" ref="list" class="" style="text-align: center;">
-        <button class="m-1 justify-self-center border-solid border-2 border-indigo-600 rounded" @click="onRemoveBtn">AAA</button>
+        <ul class="flex">
+          <li v-for="item in items" :key="item.id">
+            <my-button
+              :label="item.label"
+              :id="item.id"
+              :done="item.done"
+              @item-deleted="deleteItem(item.id)"
+              >
+            </my-button>
+          </li>
+        </ul>
+        <!-- <button class="m-1 justify-self-center border-solid border-2 border-indigo-600 rounded" @click="onRemoveBtn">AAA</button>
 
         <MyButton title="bbb" :method="onRemoveBtn"></MyButton>
         <template v-for="(child, index) in children">
           <component :is="child" v-bind="{title:curBtnLabel}" @click="onRemoveBtn"></component>
-        </template>
+        </template> -->
       </div>
       <Doughnut id="doughnut" ref="chartRef" :data="chartData" :options="chartConfig.options" @click="onClick" />
     </div>
-    <div class="chart-container" style="position: relative; height:60vh; width:100%">
+    <!-- <div class="chart-container" style="position: relative; height:60vh; width:100%">
       <Pie id="pie" :data="chartData" :options="chartConfig.options" @click="onClickPie"/>
     </div> -->
   </div>
@@ -21,6 +32,7 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import uniqueId from 'lodash.uniqueid';
 import MyButton from './MyButton.vue'
 import { Chart , ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie,Doughnut ,getElementAtEvent,ChartComponentRef} from 'vue-chartjs'
@@ -30,7 +42,7 @@ import jsonBrand from '../assets/json_brand.json'
 import jsonSubBrand from '../assets/json_subbrand.json'
 import jsonFormula from '../assets/json_formula.json'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import ButtonList from '../components/ButtonList.vue'
+
 Chart.register(ArcElement, Tooltip, Legend,ChartDataLabels)
 //type of MyButton;
 export default {
@@ -40,21 +52,17 @@ export default {
     Pie,
     Chart,
     MyButton,
-    ButtonList
   },
   data() {
     return {
-      tasks: [
-        {
-          title: 'Make todo list',
-          completed: true
-        },
-        {
-          title: 'Go skydiving',
-          completed: false
-        }
+      items: [
+        { id: uniqueId("chart-"),label: "Learn Vue", done: "species" },
       ],
-  
+      // items: [{
+      //   label: { required: true, type: String },
+      //   done: { default: 'species', type: String },
+      //   id: { required: true, type: String },
+      // }],
       jsonSpecies:jsonSpecies,
       jsonBrand:jsonBrand,
       jsonSubBrand:jsonSubBrand,
@@ -124,40 +132,27 @@ export default {
   },
  
   methods: {
-    addButton (label:String) {
-      debugger;
-      this.children.push(MyButton);
-      //this.onComplete();
+    deleteItem(itemId:any) {
+      const itemIndex = this.items.findIndex((item) => item.id === itemId);
+      let done=this.items[itemIndex].done;
+      this.items.splice(itemIndex, 1);
+      if(done == "species")
+        this.chartData=this.chartData1;
+      else if(done == "brand")
+        this.chartData=this.chartData1;
+      else if(done == "subbrand")
+        this.chartData=this.chartData2;
+      else if(done == "formula")
+        this.chartData=this.chartData3;  
     },
-    onComplete: function() {
-      //const buttonGroup = document.getElementById("button_group");
-     // buttonGroup?.removeChild(event.target);
-        let iconEle = document.getElementsByClassName("delete-icon");
-        var _this =this;
-        //Event handler to bind the click event for delete icon
-        Array.from(iconEle).forEach(function(element) {
-            element.addEventListener("click", _this.deleteItem.bind(_this));
-        });
+    addItem(itemLabel:any,itemDone:any) {
+      this.items.push({
+        id: uniqueId("chart-"),
+        label: itemLabel,
+        done: itemDone,
+      });
     },
-    deleteItem: function(event:any){
-      console.log("sssssssss");
-        event.stopPropagation();
-       // let liItem = event.target.parentElement.parentElement;
-        const buttonGroup = document.getElementById("button_group");
-        buttonGroup?.removeChild(event.target);
-        this.onComplete();
-    },
-    parentMethod() {
-      // Do something with the value
-      console.log('From the child:');
-    },
-    onRemoveBtn(event:any) {
-      const buttonGroup = document.getElementById("button_group");
-      debugger;
-      buttonGroup?.removeChild(event.target);
-      //console.log((this.children[0] as any).methods.getTitle());
-     // event.target
-    },
+   
     fillData1() {
       for(var i=0; i < this.jsonSpecies.length; i++){
         this.chartData1.labels.push(this.jsonSpecies[i].name);
@@ -201,7 +196,6 @@ export default {
     
     },
     elementAtEvent(element: any[]){
-      debugger;
       if (!element.length) return;
       const { datasetIndex, index } = element[0];
       this.curBtnLabel=this.chartData.labels[index];
@@ -211,7 +205,8 @@ export default {
       //   this.chartData.labels[index],
       //   this.chartData.datasets[datasetIndex].data[index]
       // );
-      
+      this.addItem(this.chartData.labels[index],this.chartData.type); 
+
       if(this.chartData.type == "species")
         this.chartData=this.chartData2;
       else if(this.chartData.type == "brand")
@@ -219,7 +214,8 @@ export default {
       else if(this.chartData.type == "subbrand")
         this.chartData=this.chartData4;
       
-      this.addButton(this.chartData.labels[index]);    
+      //this.addButton(this.chartData.labels[index]);   
+      
     },
 
   }
