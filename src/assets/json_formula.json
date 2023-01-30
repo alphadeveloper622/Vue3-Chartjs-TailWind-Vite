@@ -9,6 +9,18 @@
     },
     {
         "name": "formular3",
-        "value": 20
+        "value": 5
+    },
+    {
+        "name": "formular4",
+        "value": 70
+    },
+    {
+        "name": "formular5",
+        "value": 15
+    },
+    {
+        "name": "formular6",
+        "value": 5
     }
 ]

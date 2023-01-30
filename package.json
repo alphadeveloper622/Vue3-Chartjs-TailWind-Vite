@@ -12,11 +12,15 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.7",
     "@heroicons/vue": "^2.0.13",
+    "@syncfusion/ej2-vue-lists": "^20.4.42",
     "chart.js": "^4.2.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "chartjs-plugin-labels": "^1.1.0",
     "path": "^0.12.7",
     "vue": "^3.2.41",
     "vue-chartjs": "^5.2.0",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vue-tailwind": "^2.5.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",

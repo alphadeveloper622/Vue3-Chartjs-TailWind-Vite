@@ -5,13 +5,14 @@ export default createRouter({
   routes: [
     {
       path: '/',
-      //component: () => import('./components/DrilldownChart.vue'),
-      component: () => import('./components/Test.vue'),
+      component: () => import('./components/DrilldownChart.vue'),
+      //component: () => import('./components/Test.vue'),
     },
     {
       path: '/statisticCard',
-      //component: () => import('./components/StatisticCard.vue'),
-      component: () => import('./components/DrilldownChart.vue'),
+      component: () => import('./components/StatisticCard.vue'),
+      //component: () => import('./components/Test.vue'),
+      //component: () => import('./components/DrilldownChart.vue'),
     },
     {
       path: '/tableData',
