@@ -1,31 +1,35 @@
 <template>
   <div class="flex">
-    
+    <div>Slice:</div>
+    <select v-model="selected" class="border" :on-select="onSelectChange()">
+      <option v-for="opt in selectOption" :key="opt">{{ opt }}</option>
+    </select>
+    <span class="m-2"></span>
+    <div>in:</div>
+    <select class="border">
+      <option selected>Cust Dollars</option>
+    </select>
+  </div>
+  <div id="button_group" ref="list" class="" style="text-align: center;">
+    <ul class="flex">
+      <li v-for="item in items" :key="item.id">
+        <my-button
+          :label="item.label"
+          :id="item.id"
+          :done="item.done"
+          @item-deleted="deleteItem(item.id)"
+          >
+        </my-button>
+      </li>
+    </ul>
+  </div>
+  <div class="flex">
     <div class="chart-container" style="position: relative; height:60vh; width:100%">
-      <div id="button_group" ref="list" class="" style="text-align: center;">
-        <ul class="flex">
-          <li v-for="item in items" :key="item.id">
-            <my-button
-              :label="item.label"
-              :id="item.id"
-              :done="item.done"
-              @item-deleted="deleteItem(item.id)"
-              >
-            </my-button>
-          </li>
-        </ul>
-        <!-- <button class="m-1 justify-self-center border-solid border-2 border-indigo-600 rounded" @click="onRemoveBtn">AAA</button>
-
-        <MyButton title="bbb" :method="onRemoveBtn"></MyButton>
-        <template v-for="(child, index) in children">
-          <component :is="child" v-bind="{title:curBtnLabel}" @click="onRemoveBtn"></component>
-        </template> -->
-      </div>
       <Doughnut id="doughnut" ref="chartRef" :data="chartData" :options="chartConfig.options" @click="onClick" />
     </div>
-    <!-- <div class="chart-container" style="position: relative; height:60vh; width:100%">
+    <div class="chart-container" style="position: relative; height:60vh; width:100%">
       <Pie id="pie" :data="chartData" :options="chartConfig.options" @click="onClickPie"/>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -56,13 +60,15 @@ export default {
   data() {
     return {
       items: [
-        { id: uniqueId("chart-"),label: "Learn Vue", done: "species" },
+        
       ],
-      // items: [{
-      //   label: { required: true, type: String },
-      //   done: { default: 'species', type: String },
-      //   id: { required: true, type: String },
-      // }],
+      selectOption:[
+        'species',
+        'brand',
+        'subbrand',
+        'formula',
+      ],
+      selected:'species',
       jsonSpecies:jsonSpecies,
       jsonBrand:jsonBrand,
       jsonSubBrand:jsonSubBrand,
@@ -132,18 +138,36 @@ export default {
   },
  
   methods: {
+    onSelectChange(){
+      if(this.selected == "species")
+        this.chartData=this.chartData1;
+      else if(this.selected == "brand")
+        this.chartData=this.chartData2;
+      else if(this.selected == "subbrand")
+        this.chartData=this.chartData3;
+      else if(this.selected == "formula")
+        this.chartData=this.chartData4;
+    },
     deleteItem(itemId:any) {
       const itemIndex = this.items.findIndex((item) => item.id === itemId);
       let done=this.items[itemIndex].done;
+      
       this.items.splice(itemIndex, 1);
-      if(done == "species")
+      if(done == "species"){
         this.chartData=this.chartData1;
-      else if(done == "brand")
+        this.selected="species";
+      }
+      else if(done == "brand"){
         this.chartData=this.chartData1;
-      else if(done == "subbrand")
+        this.selected="species";
+      }else if(done == "subbrand"){
         this.chartData=this.chartData2;
-      else if(done == "formula")
-        this.chartData=this.chartData3;  
+        this.selected="brand";
+      }else if(done == "formula"){
+        this.chartData=this.chartData3;
+        this.selected="subbrand";
+      }    
+        
     },
     addItem(itemLabel:any,itemDone:any) {
       this.items.push({
@@ -205,15 +229,21 @@ export default {
       //   this.chartData.labels[index],
       //   this.chartData.datasets[datasetIndex].data[index]
       // );
+      this.selected=this.chartData.type;
       this.addItem(this.chartData.labels[index],this.chartData.type); 
-
-      if(this.chartData.type == "species")
+     
+      if(this.chartData.type == "species"){
         this.chartData=this.chartData2;
-      else if(this.chartData.type == "brand")
+        this.selected="brand";
+      }  
+      else if(this.chartData.type == "brand"){
         this.chartData=this.chartData3;
-      else if(this.chartData.type == "subbrand")
+        this.selected="subbrand";
+      }  
+      else if(this.chartData.type == "subbrand"){
         this.chartData=this.chartData4;
-      
+        this.selected="formula";
+      }
       //this.addButton(this.chartData.labels[index]);   
       
     },
